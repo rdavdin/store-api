@@ -2,6 +2,7 @@ const ProductModel = require("../models/product");
 const { createCustomAPIError } = require("../errors/custom-error");
 
 const getAllProductsStatic = async (req, res, next) => {
+  //throw createCustomAPIError('Custom API Error testing', 404);
   const products = await ProductModel.find({
     price: { $gt: 30 },
     price: { $lt: 100 },
@@ -12,15 +13,6 @@ const getAllProductsStatic = async (req, res, next) => {
     .skip(0); //get 10 item starting from the 3nd item
   res.status(200).json({ products, nbHits: products.length });
 };
-
-function createConditionFilter(prop, operator, value) {
-  let condObj = {};
-  if (prop) {
-    condObj = prop;
-  }
-  condObj[operator] = value;
-  return condObj;
-}
 
 const getAllProducts = async (req, res, next) => {
   const { featured, company, name, sort, fields, numericFilters } = req.query;
